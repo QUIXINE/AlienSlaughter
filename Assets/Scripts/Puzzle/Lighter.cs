@@ -24,11 +24,13 @@ namespace Puzzle
         [Header("Hidden Image")]
         [SerializeField] private GameObject _hiddenImg;
         [SerializeField] private Collider _hiddenImgCollider;
+        
         private bool _isHitImg;
-
+        public static bool IsHitImg { get; private set; }
         private void Awake()
         {
             _isLightTurnOn = false;
+            IsHitImg = false;
         }
         public void Interacted()
         {
@@ -69,9 +71,9 @@ namespace Puzzle
         
             if (_isLightTurnOn == false)
             {
-                _isHitImg = false;
+                IsHitImg = false;
             }
-            _hiddenImg.SetActive(_isHitImg);
+            //_hiddenImg.SetActive(_isHitImg);
         }
 
         private void LightRaycast()
@@ -79,24 +81,26 @@ namespace Puzzle
             Ray ray = _camera.ViewportPointToRay(Vector3.one / 2f);
             RaycastHit hitInfo;
 
-            if (Physics.Raycast(ray, out hitInfo, _rayDistance))
+            if (Physics.Raycast(ray, out hitInfo, _rayDistance) == true)
             {
-                if (hitInfo.collider == _hiddenImgCollider && _isLightTurnOn == true)
+                IRevealable revealable = hitInfo.collider.gameObject.GetComponent<IRevealable>();
+                if (revealable != null && _isLightTurnOn == true)
                 {
-                    Debug.Log("Ligh Ray Detech " + hitInfo.collider.name);
-                    _isHitImg = true;
-                }
-                else if(hitInfo.collider == null)
-                {
-                    _isHitImg = false;
+                    Debug.Log("Ligh Ray Detect " + hitInfo.collider.name);
+                    IsHitImg = true;
+                    revealable.Interacted();
                 }
                 else
                 {
-                    _isHitImg = false;
+                    IsHitImg = false;
                 }
                 Debug.Log("Hit sth " + hitInfo.collider.name);
-
             }
+            else
+            {
+                IsHitImg = false;
+            }
+            Debug.DrawRay(transform.position, transform.forward * _rayDistance, Color.red);
         }
     }
 }

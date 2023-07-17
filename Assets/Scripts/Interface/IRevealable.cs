@@ -1,0 +1,5 @@
+﻿interface IRevealable
+{
+
+    void Interacted();
+}

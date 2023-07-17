@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using TMPro;
 
 namespace Assets.Scripts
 {
@@ -10,6 +11,9 @@ namespace Assets.Scripts
         [Tooltip("Ray distance of camera to check the object to interact with")]
         [SerializeField] private float _rayDis;
 
+        [Tooltip("Interaction txt in TextMeshPro")]
+        [SerializeField] private TextMeshProUGUI interactTxtBox;
+
         private void Update()
         {
             Interaction();
@@ -18,16 +22,19 @@ namespace Assets.Scripts
         {
             Ray ray = _camera.ViewportPointToRay(Vector3.one / 2f);
             RaycastHit hitInfo;
+            bool hitSth = false;
             if(Physics.Raycast(ray, out hitInfo, _rayDis))
             {
                 IInteractable interactable = hitInfo.collider.gameObject.GetComponent<IInteractable>();
                 if(interactable != null)
                 {
                     Debug.Log(hitInfo.collider.gameObject.name);
-                    Debug.Log(interactable.GetDesctiption());
+                    interactTxtBox.text = interactable.GetDesctiption();
                     interactable.Interacted();
+                    hitSth = true;
                 }
             }
+            interactTxtBox.gameObject.SetActive(hitSth);
 
         }
     }

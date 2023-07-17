@@ -9,7 +9,7 @@ namespace Enemy
         [SerializeField] private int m_health;
        
         private List<DestroyEnemy> m_destroyEnemyList = new List<DestroyEnemy>();   //List to add ObjectsOfType to
-        private bool m_isArrayFull = true;      //used to check if there's any objs inside List
+        private bool m_isArrayFull = true;                                          //used to check if there's any objs inside List
 
         private void Awake()
         {
@@ -39,19 +39,6 @@ namespace Enemy
         {
             //What can I do not to use this method inside Update
             ChangeValuesInList();
-
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                m_health -= 5;
-            }
-            if (m_health <= 0)
-            {
-                //play animation
-                //Destroy time is related with its animation and Enemy Die animation
-                Destroy(this.gameObject, 3f);
-                //this code try to reach DestroyEnemy after it's destroyed, so it errors
-                NotifyObserver();
-            }
         }
 
         private void ChangeValuesInList()
@@ -67,7 +54,7 @@ namespace Enemy
                 m_isArrayFull = false;
             }
 
-            if (EnemyHealth.EnemyCount == 5 && m_isArrayFull == false)
+            if (EnemyHealth.EnemyCount == 13 && m_isArrayFull == false)
             {
                 m_destroyEnemyList = FindObjectsOfType<DestroyEnemy>().ToList();
                 foreach (DestroyEnemy destroyEnemy in m_destroyEnemyList)

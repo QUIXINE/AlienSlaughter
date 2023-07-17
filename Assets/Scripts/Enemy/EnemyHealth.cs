@@ -4,7 +4,7 @@ namespace Enemy
 {
     public class EnemyHealth : SubjectOfObserver, IDamagable
     {
-        public static int EnemyCount = 5;
+        public static int EnemyCount = 13;
         private InstantiateEnemy m_instantiateEnemy;
 
         //health variables
@@ -18,7 +18,7 @@ namespace Enemy
         }
         private void Start()
         {
-            EnemyCount = 5;
+            EnemyCount = 13;
 
         }
         private void OnEnable()
@@ -32,6 +32,8 @@ namespace Enemy
             if (m_instantiateEnemy != null)
                 Detach(m_instantiateEnemy);
         }
+        
+        
         //input to check if the TakeDamage() and NotifyObserver() works
         private void Update()
         {

@@ -24,7 +24,7 @@ namespace Puzzle
 
         public void Interacted()
         {
-            if (transform.rotation == Quaternion.Euler(0, -90, 0) || transform.rotation == Quaternion.Euler(0, 270, 0))
+            if (transform.rotation == Quaternion.Euler(-90, 0, -90) || transform.rotation == Quaternion.Euler(-90, 0, 270))
             {
                 Statue02IsRotated = true;
                 NotifyObserver();
@@ -38,7 +38,7 @@ namespace Puzzle
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                transform.Rotate(0, 90, 0);
+                transform.Rotate(0, 0, 90, Space.Self);
             }
 
             /* if (Input.GetKeyDown(KeyCode.E) && Statue02IsRotated == false)
@@ -48,7 +48,7 @@ namespace Puzzle
         }
         public string GetDesctiption()
         {
-            return "Rotate Statue02";
+            return "Rotate";
         }
 
 

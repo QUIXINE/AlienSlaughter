@@ -13,7 +13,7 @@ namespace Puzzle
 
         private void Start()
         {
-            _targetPos = new Vector3(transform.position.x, -2.3f, transform.position.z);   //Position that crystal will go to
+            _targetPos = new Vector3(transform.position.x, -8f, transform.position.z);   //Position that barrier will go to
             _statueIsRotated01 = false;
             _statueIsRotated02 = false;
             _statueIsRotated03 = false;
@@ -22,46 +22,18 @@ namespace Puzzle
 
         private void Update()
         {
-                /* Chaos of Static and non-static variable
-            //why I have to assign every instance's bool (_statueIsRotated01Showed - 04) as true so that every barriers will move
-            //if I only assign _statueIsRotated01Showed - 04 as true in one barrier, that one will move but the rest don't
-            //I thought if I assign _statueIsRotated01Showed - 04 of one barrier as true, the four code blocks will assign 
-            //_statueIsRotated01 - 04 (static bool) as true, and all barriers will move down because static var belongs to the class,
-            //but they don't, Why?
+            _statueIsRotated01Showed = _statueIsRotated01;
+            _statueIsRotated02Showed = _statueIsRotated02;
+            _statueIsRotated03Showed = _statueIsRotated03;
+            _statueIsRotated04Showed = _statueIsRotated04;
 
-                _statueIsRotated01 = _statueIsRotated01Showed;
-                _statueIsRotated02 = _statueIsRotated02Showed;
-                _statueIsRotated03 = _statueIsRotated03Showed;
-                _statueIsRotated04 = _statueIsRotated04Showed;        
-
-            ----------------Assumption 1----------------------
-            //---> may be because after I rotate statue correctly, in every instance class will assign static bool as true like the case above
-            //that I have to assign every the instances' bool variable so that every assigned barrier will move, but doesn't static belong to the class 
-            //not the instance then why I have to assign every instances' variable?
-            //After I tested to call public static var and assigned it, the result is it does belong to class not instance because all the barriers move
-            //So why I have to assign all instance var (_statueIsRotated01Showed - 04) to make each of barriers move
-            --------------------------------------------------
-        
-            ---------------- Additional ----------------------
-            //I try this and all the barrier move down
-                if(Input.GetMouseButtonDown(0))
-                {
-                    _statueIsRotated01 = true;
-                    _statueIsRotated02 = true;
-                    _statueIsRotated01 = true;
-                    _statueIsRotated01 = true;
-                }
-            --------------------------------------------------
-      
-          */
             if (_statueIsRotated01 == true && _statueIsRotated02 == true && _statueIsRotated03 == true && _statueIsRotated04 == true)
             {
                 //What's difference between 2 code blockse bewlow
                 transform.position = Vector3.MoveTowards(transform.position, _targetPos, 0.5f * Time.deltaTime);
                 //this.gameObject.transform.position += _targetPos * 0.5f * Time.deltaTime;
             }
-
-            if(transform.position == _targetPos)
+            if (transform.position == _targetPos)
             {
                 Destroy(this);
             }
@@ -99,3 +71,43 @@ namespace Puzzle
         }
     }
 }
+
+/* Chaos of Static and non-static variable
+//why I have to assign every instance's bool (_statueIsRotated01Showed - 04) as true so that every barriers will move
+//if I only assign _statueIsRotated01Showed - 04 as true in one barrier, that one will move but the rest don't
+//I thought if I assign _statueIsRotated01Showed - 04 of one barrier as true, the four code blocks will assign 
+//_statueIsRotated01 - 04 (static bool) as true, and all barriers will move down because static var belongs to the class,
+//but they don't, Why?
+
+    _statueIsRotated01 = _statueIsRotated01Showed;
+    _statueIsRotated02 = _statueIsRotated02Showed;
+    _statueIsRotated03 = _statueIsRotated03Showed;
+    _statueIsRotated04 = _statueIsRotated04Showed;        
+
+----------------Assumption 1----------------------
+//---> may be because after I rotate statue correctly, in every instance class will assign static bool as true like the case above
+//that I have to assign every the instances' bool variable so that every assigned barrier will move, but doesn't static belong to the class 
+//not the instance then why I have to assign every instances' variable?
+//After I tested to call public static var and assigned it, the result is it does belong to class not instance because all the barriers move
+//So why I have to assign all instance var (_statueIsRotated01Showed - 04) to make each of barriers move
+--------------------------------------------------
+
+----------------Assumption 2----------------------
+Maybe because _statueIsRotated01Showed - 04 are instance variable when put static in update and use 4 lines of code above, it means to assign
+the static one with instance variable value, but maybe it's not the reason why because there's still one barrier move (the one that instance vars are true)
+----------------Assumption 2----------------------
+
+
+---------------- Additional ----------------------
+//I try this and all the barrier move down
+    if(Input.GetMouseButtonDown(0))
+    {
+        _statueIsRotated01 = true;
+        _statueIsRotated02 = true;
+        _statueIsRotated01 = true;
+        _statueIsRotated01 = true;
+    }
+--------------------------------------------------
+
+*/
+
