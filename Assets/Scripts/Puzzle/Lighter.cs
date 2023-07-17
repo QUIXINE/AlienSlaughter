@@ -12,26 +12,24 @@ namespace Puzzle
 
         [Tooltip("Light of the Lighter")]
         [SerializeField] private GameObject _spotLight;
-        private bool _isLightTurnOn = false;                //check if the light is on
-        private bool _isPickedUp = false;                   //check if the lighter is picked up
+        private bool _isLightTurnOn = false;                    //check if the light is on
+        private bool _isPickedUp = false;                       //check if the lighter is picked up
     
         [Header("Light Raycast")]
         [SerializeField] private Camera _camera;
         [SerializeField] private Transform _rayPos;
         [SerializeField] private int _rayDistance;
 
-        [Tooltip("Image to be exposed by the lighter")]
-        [Header("Hidden Image")]
-        [SerializeField] private GameObject _hiddenImg;
-        [SerializeField] private Collider _hiddenImgCollider;
         
-        private bool _isHitImg;
-        public static bool IsHitImg { get; private set; }
+        public static bool IsHitImg { get; private set; }       //check if the Lighter ray collides with Hidden_Image
         private void Awake()
         {
             _isLightTurnOn = false;
             IsHitImg = false;
         }
+
+        //Interact to pickup the Lighter method
+        #region IInteractable methods
         public void Interacted()
         {
             if(Input.GetKey(KeyCode.E) && _isPickedUp == false)
@@ -50,9 +48,10 @@ namespace Puzzle
         }
         public string GetDesctiption()
         {
-            return null;
+            return "Pickup";
         }
-    
+        #endregion
+        
         void Update()
         {
             //Trun on/off the light
@@ -60,7 +59,6 @@ namespace Puzzle
             {
                 _isLightTurnOn = !_isLightTurnOn;
             }
-
             _spotLight.SetActive(_isLightTurnOn);
 
             //If change items from weapon to lighter, Lighter will be invisible, then this won't work
@@ -68,12 +66,12 @@ namespace Puzzle
             {
                 LightRaycast();
             }
-        
+            
+            //check if the light is off, then stop the image from hit
             if (_isLightTurnOn == false)
             {
                 IsHitImg = false;
             }
-            //_hiddenImg.SetActive(_isHitImg);
         }
 
         private void LightRaycast()
@@ -81,12 +79,13 @@ namespace Puzzle
             Ray ray = _camera.ViewportPointToRay(Vector3.one / 2f);
             RaycastHit hitInfo;
 
+
             if (Physics.Raycast(ray, out hitInfo, _rayDistance) == true)
             {
+                //chack if Lighter reach the images
                 IRevealable revealable = hitInfo.collider.gameObject.GetComponent<IRevealable>();
                 if (revealable != null && _isLightTurnOn == true)
                 {
-                    Debug.Log("Ligh Ray Detect " + hitInfo.collider.name);
                     IsHitImg = true;
                     revealable.Interacted();
                 }
@@ -94,13 +93,11 @@ namespace Puzzle
                 {
                     IsHitImg = false;
                 }
-                Debug.Log("Hit sth " + hitInfo.collider.name);
             }
             else
             {
                 IsHitImg = false;
             }
-            Debug.DrawRay(transform.position, transform.forward * _rayDistance, Color.red);
         }
     }
 }

@@ -9,7 +9,6 @@ public class EnemyAttack : MonoBehaviour
         PlayerHealth playerHealth = col.GetComponent<PlayerHealth>();
         if(playerHealth != null)
         {
-            print("Attack");
             playerHealth.TakeDamage(m_damage);
         }    
     }

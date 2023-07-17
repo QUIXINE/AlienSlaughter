@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 
-namespace Assets.Scripts
+namespace Player
 {
     internal class ObjectInteraction : MonoBehaviour
     {
@@ -28,7 +28,6 @@ namespace Assets.Scripts
                 IInteractable interactable = hitInfo.collider.gameObject.GetComponent<IInteractable>();
                 if(interactable != null)
                 {
-                    Debug.Log(hitInfo.collider.gameObject.name);
                     interactTxtBox.text = interactable.GetDesctiption();
                     interactable.Interacted();
                     hitSth = true;

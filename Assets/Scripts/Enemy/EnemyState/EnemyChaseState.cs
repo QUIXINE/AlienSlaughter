@@ -25,17 +25,15 @@ namespace Enemy
             rotation = Quaternion.LookRotation(m_lookPos);
             stateManager.transform.rotation = Quaternion.Slerp(stateManager.transform.rotation, rotation, m_turnSpeed * Time.deltaTime);
 
+            m_animator.SetBool("Chase", true);
+            m_navMeshAgent.SetDestination(target.position);
+
             if (Vector3.Distance(stateManager.transform.position, target.position) <= AttackRange)
             {
                 m_animator.SetBool("Chase", false);
                 stateManager.SwitchState(stateManager.AttackState);
             }
-            else if (Vector3.Distance(stateManager.transform.position, target.position) >= AttackRange && Vector3.Distance(stateManager.transform.position, target.position) <= ChaseRange)
-            {
-                m_animator.SetBool("Chase", true);
-                //stateManager.gameObject.transform.LookAt(target);
-                m_navMeshAgent.SetDestination(target.position);
-            }
+           
             
         }
 
@@ -43,3 +41,10 @@ namespace Enemy
 
     }
 }
+/*This will make enemy only chase on the condition
+ else if (Vector3.Distance(stateManager.transform.position, target.position) >= AttackRange && Vector3.Distance(stateManager.transform.position, target.position) <= ChaseRange)
+           {
+               m_animator.SetBool("Chase", true);
+               //stateManager.gameObject.transform.LookAt(target);
+               m_navMeshAgent.SetDestination(target.position);
+           }*/

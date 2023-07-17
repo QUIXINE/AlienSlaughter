@@ -4,7 +4,7 @@ namespace Enemy
 {
     public class EnemyHealth : SubjectOfObserver, IDamagable
     {
-        public static int EnemyCount = 13;
+        public static int EnemyCount = 13;              //Amount of enemies in scene
         private InstantiateEnemy m_instantiateEnemy;
 
         //health variables
@@ -33,23 +33,6 @@ namespace Enemy
                 Detach(m_instantiateEnemy);
         }
         
-        
-        //input to check if the TakeDamage() and NotifyObserver() works
-        private void Update()
-        {
-            if (m_health <= 0)
-            {
-                EnemyCount--;
-                NotifyObserver();
-                Destroy(this.gameObject);
-                m_canBeAttacked = false;
-            }
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                TakeDamage(5);
-            }
-        }
-        
         public void TakeDamage(int damage)
         {
             if(m_health > 0 && m_canBeAttacked == true)
@@ -64,14 +47,38 @@ namespace Enemy
                 }
             }
 
-            /*if(m_health <= 0 && m_canBeAttacked == true)
-            {
-                EnemyCount--;
-                NotifyObserver();
-                Destroy(this.gameObject);
-                m_canBeAttacked = false;
-            }*/
         }
     }
 }
+
+
+
+/*This condition may not be important
+if(m_health <= 0 && m_canBeAttacked == true)
+{
+    EnemyCount--;
+    NotifyObserver();
+    Destroy(this.gameObject);
+    m_canBeAttacked = false;
+}
+*/
+
+/*//input to check if the TakeDamage() and NotifyObserver() works
+  private void Update()
+  {
+
+      if (m_health <= 0)
+      {
+          EnemyCount--;
+          NotifyObserver();
+          Destroy(this.gameObject);
+          m_canBeAttacked = false;
+      }
+      if (Input.GetKeyDown(KeyCode.E))
+      {
+          TakeDamage(5);
+      }
+  }
+*/
+
 

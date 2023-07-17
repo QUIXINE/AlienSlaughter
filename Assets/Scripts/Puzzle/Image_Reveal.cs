@@ -4,8 +4,8 @@ namespace Puzzle
 {
     public class Image_Reveal : MonoBehaviour, IRevealable
     {
-        private bool isRevalable;
-        private SpriteRenderer spriteRenderer;
+        private bool isRevealable;                      //used to check if the light's ray hits the Hidden_Image or not
+        private SpriteRenderer spriteRenderer;          //used to enable/unenable
 
         private void Start()
         {
@@ -13,18 +13,18 @@ namespace Puzzle
         }
         public void Interacted()
         {
-            isRevalable = true;
+            isRevealable = true;
         }
 
         private void Update()
         {
             if(Lighter.IsHitImg == false)
             {
-                isRevalable = false;
+                isRevealable = false;
             }
-            // meaning? --> isRevalable |= isRevalable && !isRevalable;
+            //meaning? --> isRevalable |= isRevalable && !isRevalable;
             
-            spriteRenderer.enabled = isRevalable;
+            spriteRenderer.enabled = isRevealable;
         }
     }
 }

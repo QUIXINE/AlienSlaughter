@@ -5,34 +5,35 @@ namespace Enemy
     public class EnemyStateManager : MonoBehaviour
     {
         private EnemyBaseState currentState;
-        
+
         public EnemyIdleState IdleState = new EnemyIdleState();
         public EnemyAttackState AttackState = new EnemyAttackState();
         public EnemyChaseState ChaseState = new EnemyChaseState();
 
         //Player tarnsform to use with NavMeshAgent
-        [SerializeField] private Transform m_targetPos;
-        [SerializeField] private Transform m_targetRot;
+        [Tooltip("Player position for enemy to chase after")]
+        [SerializeField] private Transform targetPos;
+        [Tooltip("Player rotation for enemy to chase after")]
+        [SerializeField] private Transform targetRot;
 
         private void Start()
         {
             //Play VFX
-            m_targetPos = GameObject.FindGameObjectWithTag("PlayerPosition").gameObject.transform;
-            m_targetRot = GameObject.FindGameObjectWithTag("PlayerRotation").gameObject.transform;
-            print(m_targetPos);
+            targetPos = GameObject.FindGameObjectWithTag("PlayerPosition").gameObject.transform;
+            targetRot = GameObject.FindGameObjectWithTag("PlayerRotation").gameObject.transform;
             currentState = IdleState;
-            currentState.EnterState(this, m_targetPos);
+            currentState.EnterState(this, targetPos);
         }
 
         private void Update()
         {
-            currentState.UpdateState(this, m_targetPos, m_targetRot);
+            currentState.UpdateState(this, targetPos, targetRot);
         }
 
         public void SwitchState(EnemyBaseState state)
         {
             currentState = state;
-            state.EnterState(this, m_targetPos);
+            state.EnterState(this, targetPos);
         }
     }
 }
